@@ -10,7 +10,7 @@ var authJwtController=require('./auth_jwt');
 //var authController=require('./auth');
 mongoose=require('mongoose');
 
-mongoose.connect("mongodb+srv://root:bogas@cluster0-qbpkm.mongodb.net/test?retryWrites=true",(err,db)=>{
+mongoose.connect("mongodb+srv://root:bogas@cluster0-xecav.mongodb.net/test?retryWrites=true",(err,db)=>{
     if (err) throw err;
     console.log("connect to db")
 });
