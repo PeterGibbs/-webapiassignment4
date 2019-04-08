@@ -132,7 +132,7 @@ app.get('/movies',function(req,res){
                         movies[i].Reviews=[];
                         Review.find({MovieTitle:req.body.title},function(err,reviews){
                             if (err) throw err;
-                            console.log(movie.Title)
+                            console.log(movies[i].Title)
                             movies[i].Reviews=reviews
                         })
                     }
