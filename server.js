@@ -291,7 +291,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
             console.log("ID IS "+id)
             if(movie){
                 User.findOne({jwt_id:id},function(err,user){
-                    if(User){
+                    if(user){
                         console.log(User.username)
                         var newReview=Review({
                             MovieTitle:req.body.title,
