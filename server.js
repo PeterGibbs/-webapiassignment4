@@ -16,6 +16,7 @@ mongoose.connect("mongodb+srv://root:bogas@cluster0-xecav.mongodb.net/test?retry
 });
 var User=require("./models/user");
 var Movie=require("./models/movie");
+var Review=require("./models/review");
 var jwt=require('jsonwebtoken');
 var app=express();
 
@@ -109,32 +110,50 @@ app.all('/signin',function(req,res){
     res.json({success: false,msg: 'Invalid method'});
 })
 
-app.route('/movies').get(authJwtController.isAuthenticated,function(req,res){
+app.get('/movies',function(req,res){
+    function sendMovie(movie){
+        if(movie){
+            let responseData={
+                success: true,
+                movies: movie
+            }
+            res.json(responseData);
+        }
+    }
     res=res.status(200)
     console.log(req.body);
     if(req.body.title){
-        Movie.find({Title:req.body.title},function(err,movie){
+        Movie.find({Title:req.body.title},function(err,movies){
             if (err) throw err;
-            if(movie){
-                let responseData={
-                    success: true,
-                    movies: movie
-                }
-                res.json(responseData);
-            }
+            //sendMovie(movie)
 
-        });
+        }).then(function(result){
+            if(req.body.reviews=="true"){
+                movies.forEach(movie => {
+                    Review.find({MovieTitle:req.body.title},function(err,reviews){
+                        if (err) throw err;
+                        movie.reviews=reviews
+                    })
+                });
+            }
+            sendMovie(movies)
+        })
     }else{
         Movie.find({},function(err,movie){
             if (err) throw err;
-            if(movie){
-                let responseData={
-                    success: true,
-                    movies: movie
-                }
-                res.json(responseData);
-            }
+            sendMovie(movie)
 
+        }).then(function(result){
+            if(req.body.reviews=="true"){
+                movies.forEach(movie => {
+                    Review.find({MovieTitle:req.body.title},function(err,reviews){
+                        if (err) throw err;
+                        movie.reviews=reviews
+                    })
+                });
+
+            }
+            sendMovie(movies)
         });
     }
 });
@@ -248,6 +267,18 @@ app.route('/movies').delete(authJwtController.isAuthenticated,function(req,res){
     }
 });
 app.all('/movies',function(req,res){
+    res.json({success: false,msg: 'Invalid method'});
+})
+
+app.get("/reviews",function(req,res){
+
+});
+app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
+    
+});
+
+
+app.all('/reviews',function(req,res){
     res.json({success: false,msg: 'Invalid method'});
 })
 http.createServer(app).listen(port,()=>{

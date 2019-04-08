@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/PeterGibbs/webapiassignment4#readme",
   "dependencies": {
+    "async": "^2.6.2",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "dotenv": "^7.0.0",
