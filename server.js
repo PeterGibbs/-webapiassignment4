@@ -127,13 +127,17 @@ app.get('/movies',function(req,res){
             if (err) throw err;
             if(movies){
                 if(req.body.reviews=="true"){
-                    movies.forEach(movie => {
+                    for(var i=0; i<movies.length; ++i){
+                        movies[i].Reviews=[];
                         Review.find({MovieTitle:req.body.title},function(err,reviews){
                             if (err) throw err;
                             console.log(movie.Title)
-                            movie.reviews=reviews
+                            movies[i].Reviews=reviews
                         })
-                    });
+                    }
+                    
+                       
+                    
                 }
             }
             sendMovies(movies)
