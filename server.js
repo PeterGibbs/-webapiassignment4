@@ -285,10 +285,10 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title&& req.body.comments && req.body.rating){
         Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
             
-            var id= jwt.verify(req.headers.authorization.split(' ')[1],authJwtController.secret);
+            var user= jwt.verify(req.headers.authorization.split(' ')[1],authJwtController.secret);
             console.log("ID IS "+id)
             if(movie){
-                User.findOne({jwt_id:id},function(err,user){
+                
                     if(user){
                         console.log(User.username)
                         var newReview=Review({
@@ -312,15 +312,15 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
                     }else{
                         let responseData={
                             success: true,
-                            msg: 'Invalid user',
-                            id:id
+                            msg: 'Invalid user'
+                            
                             
                         }
                         res.json(responseData);
                     }
                 
                 
-            });
+            );
             }else{
                 let responseData={
                     success: false,
