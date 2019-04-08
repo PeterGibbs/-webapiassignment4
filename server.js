@@ -125,9 +125,6 @@ app.get('/movies',function(req,res){
     if(req.body.title){
         Movie.find({Title:req.body.title},function(err,movies){
             if (err) throw err;
-            //sendMovie(movie)
-
-        }).then(function(result){
             if(movies){
                 if(req.body.reviews=="true"){
                     movies.forEach(movie => {
@@ -140,13 +137,11 @@ app.get('/movies',function(req,res){
                 }
             }
             sendMovies(movies)
+
         })
     }else{
-        Movie.find({},function(err,movie){
+        Movie.find({},function(err,movies){
             if (err) throw err;
-            sendMovies(movie)
-
-        }).then(function(result){
             if(req.body.reviews=="true"){
                 movies.forEach(movie => {
                     Review.find({MovieTitle:req.body.title},function(err,reviews){
@@ -157,7 +152,12 @@ app.get('/movies',function(req,res){
 
             }
             sendMovies(movies)
-        });
+            
+
+
+        })
+            
+        
     }
 });
     
