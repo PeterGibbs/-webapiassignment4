@@ -246,7 +246,7 @@ app.route('/movies').put(authJwtController.isAuthenticated,function(req,res){
 });
 app.route('/movies').delete(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title){
-        Reviews.findAllAndRemove({MovieTitle:req.body.title},function(err,review){
+        Review.findAllAndRemove({MovieTitle:req.body.title},function(err,review){
             
             if (err) throw err;
         
