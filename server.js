@@ -320,7 +320,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
                     }
                 
                 
-            );
+            
             }else{
                 let responseData={
                     success: false,
