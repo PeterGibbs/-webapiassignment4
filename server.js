@@ -287,7 +287,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
             
 
 
-            var id=req.headers.authorization.id;
+            var id=jwt.decode(req.headers.authorization, authJwtController.secret);
             console.log("ID IS "+id)
             if(movie){
                 User.findOne({jwt_id:id},function(err,user){
