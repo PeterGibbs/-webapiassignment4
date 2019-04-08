@@ -121,7 +121,7 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    aa,user=passport.authenticate('jwt',{session:false})
+    
     console.log(user.username);
     if(req.body.title){
         Movie.find({Title:req.body.title},function(err,movies){
@@ -283,8 +283,8 @@ app.get("/reviews",function(req,res){
 });
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     Movie.findOneAndUpdate({Title:req.body.title},req.body.movie,function(err,movie){
-       
-        var id=req.headers
+        
+        var id=req.headers.authorization;
         console.log("ID IS "+id)
         if(movie){
             
@@ -303,6 +303,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
             let responseData={
                 success: true,
                 msg: 'Review posted',
+                usr:
                 
             }
             res.json(responseData);
