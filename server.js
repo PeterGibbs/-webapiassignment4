@@ -123,7 +123,7 @@ app.get('/movies',function(req,res){
     }
     res=res.status(200)
     if(req.body.reviews=="true"){
-        Movies.aggregate(
+        Movie.aggregate(
             {  "$match":{"Title":req.body.title},
                 "$lookup": { 
                     "from": "reviews",
@@ -151,15 +151,7 @@ app.get('/movies',function(req,res){
         }else{
             Movie.find({},function(err,movies){
                 if (err) throw err;
-                if(req.body.reviews=="true"){
-                    movies.forEach(movie => {
-                        Review.find({MovieTitle:req.body.title},function(err,reviews){
-                            if (err) throw err;
-                            movie.reviews=reviews
-                        })
-                    });
-
-                }
+                
                 sendMovies(movies)
                 
 
