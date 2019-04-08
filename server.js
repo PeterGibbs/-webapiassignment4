@@ -246,14 +246,14 @@ app.route('/movies').put(authJwtController.isAuthenticated,function(req,res){
 });
 app.route('/movies').delete(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title){
-        Review.findAndRemove({MovieTitle:req.body.title},function(err,review){
-            
-            if (err) throw err;
         
-        });
             
         Movie.findOneAndRemove({Title:req.body.title},function(err,movie){
+            Review.remove({MovieTitle:req.body.title},function(err,review){
             
+                if (err) throw err;
+            
+            });
             if (err) throw err;
             if(!movie){
                 let responseData={
