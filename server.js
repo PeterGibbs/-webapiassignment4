@@ -121,7 +121,7 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    console.log(req.body);
+    console.log(jwt_payload.id);
     if(req.body.title){
         Movie.find({Title:req.body.title},function(err,movies){
             if (err) throw err;
@@ -283,7 +283,7 @@ app.get("/reviews",function(req,res){
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     Movie.findOneAndUpdate({Title:req.body.title},req.body.movie,function(err,movie){
        
-        var id=req.headers.Authorization
+        var id=req.headers
         console.log("ID IS "+id)
         if(movie){
             
