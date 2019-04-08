@@ -132,6 +132,7 @@ app.get('/movies',function(req,res){
                 movies.forEach(movie => {
                     Review.find({MovieTitle:req.body.title},function(err,reviews){
                         if (err) throw err;
+                        console.log(movie.Title)
                         movie.reviews=reviews
                     })
                 });
