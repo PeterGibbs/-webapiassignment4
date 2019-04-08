@@ -302,8 +302,8 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
             if (err) throw err;
             let responseData={
                 success: true,
-                msg: 'Review posted',
-                usr:
+                msg: 'Review posted'
+                
                 
             }
             res.json(responseData);
