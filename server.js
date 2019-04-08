@@ -285,8 +285,8 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title&& req.body.comments && req.body.rating){
         Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
             
-
-
+            console.log("SEC IS "+authJwtController.secret)
+            
             var id=jwt.decode(req.headers.authorization, authJwtController.secret);
             console.log("ID IS "+id)
             if(movie){
