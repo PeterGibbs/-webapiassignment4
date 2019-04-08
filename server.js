@@ -295,7 +295,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
                         console.log(User.username)
                         var newReview=Review({
                             MovieTitle:req.body.title,
-                            ReviewerName:User.username,
+                            ReviewerName:user.username,
                             MovieComments:req.body.comments,
                             Rating:req.body.rating
                         });
