@@ -111,11 +111,11 @@ app.all('/signin',function(req,res){
 })
 
 app.get('/movies',function(req,res){
-    function sendMovie(movie){
-        if(movie){
+    function sendMovies(movies){
+        if(movies){
             let responseData={
                 success: true,
-                movies: movie
+                movies: movies
             }
             res.json(responseData);
         }
@@ -128,21 +128,23 @@ app.get('/movies',function(req,res){
             //sendMovie(movie)
 
         }).then(function(result){
-            if(req.body.reviews=="true"){
-                movies.forEach(movie => {
-                    Review.find({MovieTitle:req.body.title},function(err,reviews){
-                        if (err) throw err;
-                        console.log(movie.Title)
-                        movie.reviews=reviews
-                    })
-                });
+            if(movies){
+                if(req.body.reviews=="true"){
+                    movies.forEach(movie => {
+                        Review.find({MovieTitle:req.body.title},function(err,reviews){
+                            if (err) throw err;
+                            console.log(movie.Title)
+                            movie.reviews=reviews
+                        })
+                    });
+                }
             }
-            sendMovie(movies)
+            sendMovies(movies)
         })
     }else{
         Movie.find({},function(err,movie){
             if (err) throw err;
-            sendMovie(movie)
+            sendMovies(movie)
 
         }).then(function(result){
             if(req.body.reviews=="true"){
@@ -154,7 +156,7 @@ app.get('/movies',function(req,res){
                 });
 
             }
-            sendMovie(movies)
+            sendMovies(movies)
         });
     }
 });
