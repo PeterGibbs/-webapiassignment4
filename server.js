@@ -287,26 +287,38 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
         var id=req.headers.authorization;
         console.log("ID IS "+id)
         if(movie){
+            User.findOne({jwt_id:id},function(err,user){
+                if(User){
+                    var newReview=Review({
+                        MovieTitle:req.body.title,
+                        ReviewerName:User.username,
+                        MovieComments:req.body.comments,
+                        Rating:req.body.rating
+                    });
+                
+                    newReview.save(function(err){
+                        if(err) throw err;
+                    });
+                    if (err) throw err;
+                    let responseData={
+                        success: true,
+                        msg: 'Review posted'
+                        
+                        
+                    }
+                    res.json(responseData);
+                }else{
+                    let responseData={
+                        success: true,
+                        msg: 'Invalid user'
+                        
+                        
+                    }
+                    res.json(responseData);
+                }
             
-
-            var newMovie=Review({
-                MovieTitle:req.body.title,
-                ReviewerName:req.body.year,
-                Genre:req.body.genre,
-                Actors:req.body.actors
-            });
-        
-            newMovie.save(function(err){
-                if(err) throw err;
-            });
-            if (err) throw err;
-            let responseData={
-                success: true,
-                msg: 'Review posted'
-                
-                
-            }
-            res.json(responseData);
+            
+        });
         }else{
             let responseData={
                 success: false,
