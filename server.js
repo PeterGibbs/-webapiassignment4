@@ -287,6 +287,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
             var ExtractJwt=require('passport-jwt').ExtractJwt;
 
             console.log("SEC IS "+authJwtController.secret)
+            console.log("FROM REQ IS "+ExtractJwt.fromAuthHeaderWithScheme("jwt"))
             console.log("FROM REQ IS "+ExtractJwt.fromAuthHeaderWithScheme("jwt")(req.headers))
             var id=jwt.decode(req.headers.authorization, authJwtController.secret);
             console.log("ID IS "+id)
