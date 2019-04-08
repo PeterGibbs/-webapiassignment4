@@ -110,6 +110,7 @@ app.all('/signin',function(req,res){
     res.json({success: false,msg: 'Invalid method'});
 })
 
+
 app.get('/movies',function(req,res){
     function sendMovies(movies){
         if(movies){
@@ -121,54 +122,52 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    
-    
-    if(req.body.title){
-        Movie.find({Title:req.body.title},function(err,movies){
-            if (err) throw err;
-            if(movies){
-                if(req.body.reviews=="true"){
-                    for(var i=0; i<movies.length; ++i){
-                        if(movies[i]){
-                            
-                            movies[i].Reviews=[];
-                            
-                            Review.find({MovieTitle:movies[i].Title},function(err,reviews){
-                                if (err) throw err;
-                                console.log(movies[i].Title)
-                                movies[i].Reviews=reviews
-                            })
-                        }else{
-                            console.log("Movie does not exist")
-                        }
-                    }
-                    
-                       
-                    
-                }
-            }
-            sendMovies(movies)
+    if(req.body.reviews=="true"){
+        Movies.aggregate(
+            {  "$match":{"Title":req.body.title},
+                "$lookup": { 
+                    "from": "reviews",
+                "localField":"Title",
+                "foreignField":"MovieTitle",
+                "as": "movieReviews"
+                } 
+            },function(err,movies){
+                if (err) throw err;
+                
+                sendMovies(movies)
 
-        })
+            }
+
+         )
     }else{
-        Movie.find({},function(err,movies){
-            if (err) throw err;
-            if(req.body.reviews=="true"){
-                movies.forEach(movie => {
-                    Review.find({MovieTitle:req.body.title},function(err,reviews){
-                        if (err) throw err;
-                        movie.reviews=reviews
-                    })
-                });
+    
+        if(req.body.title){
+            Movie.find({Title:req.body.title},function(err,movies){
+                if (err) throw err;
+                
+                sendMovies(movies)
 
-            }
-            sendMovies(movies)
+            })
+        }else{
+            Movie.find({},function(err,movies){
+                if (err) throw err;
+                if(req.body.reviews=="true"){
+                    movies.forEach(movie => {
+                        Review.find({MovieTitle:req.body.title},function(err,reviews){
+                            if (err) throw err;
+                            movie.reviews=reviews
+                        })
+                    });
+
+                }
+                sendMovies(movies)
+                
+
+
+            })
+                
             
-
-
-        })
-            
-        
+        }
     }
 });
     
