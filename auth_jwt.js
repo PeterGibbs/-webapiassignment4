@@ -8,12 +8,7 @@ var User=require("./models/user")
 var opts={};
 opts.jwtFromRequest=ExtractJwt.fromAuthHeaderWithScheme("jwt");
 opts.secretOrKey=process.env.JWT_SECRET;
-function getUser(jwt_payload){
-    User.findOne({jwt_id:jwt_payload.id},function(err,user){
-        if(err) throw err;
-        return user;
-    })
-}
+
 passport.use(new JwtStrategy(opts,function(jwt_payload,done){
     console.log(jwt_payload.id)
     

@@ -121,7 +121,8 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    console.log(jwt_payload.id);
+    aa,user=passport.authenticate('jwt',{session:false})
+    console.log(user.username);
     if(req.body.title){
         Movie.find({Title:req.body.title},function(err,movies){
             if (err) throw err;
