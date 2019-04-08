@@ -284,12 +284,8 @@ app.get("/reviews",function(req,res){
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title&& req.body.comments && req.body.rating){
         Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
-            var ExtractJwt=require('passport-jwt').ExtractJwt;
-
-            console.log("SEC IS "+authJwtController.secret)
-            console.log("FROM REQ IS "+ExtractJwt.fromAuthHeaderWithScheme("jwt"))
-            console.log("FROM REQ IS "+ExtractJwt.fromAuthHeaderWithScheme("jwt")(req.headers))
-            var id=jwt.decode(req.headers.authorization, authJwtController.secret);
+            
+            var id= jwt.verify(req.headers.authorization,authJwtController. secret);
             console.log("ID IS "+id)
             if(movie){
                 User.findOne({jwt_id:id},function(err,user){
