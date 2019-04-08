@@ -53,10 +53,12 @@ app.post('/signup',function(req,res){
             }else{
                 console.log("adding")
                 const hash_secret=process.env.HASH_SECRET;
+                var hash =new crypto.createHmac('sha256', hash_secret)
                 var newUser=User({
                     username: req.body.username,
-                        password: crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
+                        password: hash.update(req.body.password).digest('hex')
                     });
+                    
                     newUser.save(function(err){
                         if(err) throw err;
                         let responseData={
@@ -91,7 +93,8 @@ app.all('/signup',function(req,res){
 app.post('/signin',function(req,res){
     console.log(req.body);
     const hash_secret=process.env.HASH_SECRET;
-    var pwd=crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
+    var hash =new crypto.createHmac('sha256', hash_secret)
+    var pwd=hash.update(req.body.password).digest('hex')
     User.findOne({username:req.body.username,password:pwd},function(err,user){
         if(err) throw err;
         if(!user){
