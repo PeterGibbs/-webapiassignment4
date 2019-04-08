@@ -281,7 +281,40 @@ app.get("/reviews",function(req,res){
 
 });
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
+    Movie.findOneAndUpdate({Title:req.body.title},req.body.movie,function(err,movie){
+       
+        var id=req.headers.Authorization
+        console.log("ID IS "+id)
+        if(movie){
+            
+
+            var newMovie=Review({
+                MovieTitle:req.body.title,
+                ReviewerName:req.body.year,
+                Genre:req.body.genre,
+                Actors:req.body.actors
+            });
+        
+            newMovie.save(function(err){
+                if(err) throw err;
+            });
+            if (err) throw err;
+            let responseData={
+                success: true,
+                msg: 'Review posted',
+                
+            }
+            res.json(responseData);
+        }else{
+            let responseData={
+                success: false,
+                msg: 'Movie not found'
+                
+            } 
+            res.json(responseData);
+        }
     
+   });
 });
 
 
