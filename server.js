@@ -123,15 +123,18 @@ app.get('/movies',function(req,res){
     }
     res=res.status(200)
     if(req.body.reviews=="true"){
-        Movie.aggregate(
-            {  "$match":{"Title":req.body.title},
-                "$lookup": { 
-                    "from": "reviews",
-                "localField":"Title",
-                "foreignField":"MovieTitle",
-                "as": "movieReviews"
-                } 
-            },function(err,movies){
+        Movie.aggregate([
+                    { $match: {
+                        Title: req.body.title
+                    }},
+                    {$lookup: { 
+                        from: "reviews",
+                        localField:"Title",
+                        foreignField:"MovieTitle",
+                        as: "movieReviews"
+                        }
+                    }
+                ], function(err,movies){
                 if (err) throw err;
                 
                 sendMovies(movies)
