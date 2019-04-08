@@ -92,7 +92,7 @@ app.post('/signin',function(req,res){
     console.log(req.body);
     const hash_secret=process.env.HASH_SECRET;
     var pwd=crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
-    User.findOne({username:req.body.username,password:pwd},function(err,user){
+    User.findOne({username:req.body.username},function(err,user){
         if(err) throw err;
         if(!user){
             res.status(401).send({success:false,msg:"User or password invalid"})
