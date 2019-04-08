@@ -129,12 +129,18 @@ app.get('/movies',function(req,res){
             if(movies){
                 if(req.body.reviews=="true"){
                     for(var i=0; i<movies.length; ++i){
-                        movies[i].Reviews=[];
-                        Review.find({MovieTitle:req.body.title},function(err,reviews){
-                            if (err) throw err;
-                            console.log(movies[i].Title)
-                            movies[i].Reviews=reviews
-                        })
+                        if(movies[i]){
+                            
+                            movies[i].Reviews=[];
+                            
+                            Review.find({MovieTitle:movies[i].Title},function(err,reviews){
+                                if (err) throw err;
+                                console.log(movies[i].Title)
+                                movies[i].Reviews=reviews
+                            })
+                        }else{
+                            console.log("Movie does not exist")
+                        }
                     }
                     
                        
