@@ -289,7 +289,7 @@ app.get("/reviews",function(req,res){
 });
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     if(req.body.title&& req.body.comments && req.body.rating){
-        Movie.findOneAndUpdate({Title:req.body.title},req.body.movie,function(err,movie){
+        Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
             
 
 
