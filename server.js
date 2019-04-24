@@ -27,11 +27,13 @@ app.use(bodyParser.json({
     type: function(req){
         return 'application/json';
     }
+    
 }));
 
 
 app.post('/signup',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res=res.status(200)
     
     console.log(req.body);
@@ -86,11 +88,13 @@ app.post('/signup',function(req,res){
 });
 app.all('/signup',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res.json({success: false,msg: 'Invalid method'});
 });
 
 app.post('/signin',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     console.log(req.body);
     const hash_secret=process.env.HASH_SECRET;
     var pwd=crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
@@ -115,6 +119,7 @@ app.all('/signin',function(req,res){
 
 app.get('/movies',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     function sendMovies(movies){
         if(movies){
             let responseData={
@@ -171,6 +176,7 @@ app.get('/movies',function(req,res){
     
 app.route('/movies').post(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res=res.status(200)
     console.log(req.body);
     if(req.body.title&& req.body.year && req.body.genre && req.body.actors){
@@ -218,6 +224,7 @@ app.route('/movies').post(authJwtController.isAuthenticated,function(req,res){
 });
 app.route('/movies').put(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     if(req.body.title&& req.body.movie){
        Movie.findOneAndUpdate({Title:req.body.title},req.body.movie,function(err,movie){
             if(movie){
@@ -250,6 +257,7 @@ app.route('/movies').put(authJwtController.isAuthenticated,function(req,res){
 });
 app.route('/movies').delete(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     if(req.body.title){
         
             
@@ -287,14 +295,17 @@ app.route('/movies').delete(authJwtController.isAuthenticated,function(req,res){
 });
 app.all('/movies',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res.json({success: false,msg: 'Invalid method'});
 })
 
 app.get("/reviews",function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
 });
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     if(req.body.title&& req.body.comments && req.body.rating){
         Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
             
@@ -358,6 +369,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
 
 app.all('/reviews',function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res.json({success: false,msg: 'Invalid method'});
 })
 http.createServer(app).listen(port,()=>{
