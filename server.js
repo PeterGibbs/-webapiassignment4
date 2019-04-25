@@ -130,7 +130,7 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    if(req.query.reviews=="true"){
+    if(req.query.reviews==true){
         Movie.aggregate([
                     { $match: {
                         Title: req.query.title
