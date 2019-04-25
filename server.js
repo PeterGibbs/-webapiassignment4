@@ -136,12 +136,12 @@ app.get('/movies',function(req,res){
             if(req.query.title){
                 Movie.aggregate([
                     { $match: {
-                        Title: req.query.title
+                        Title: req.query.id
                     }},
                     {$lookup: { 
                         from: "reviews",
-                        localField:"Title",
-                        foreignField:"MovieTitle",
+                        localField:"_id",
+                        foreignField:"MovieId",
                         as: "movieReviews"
                         }
                     }
@@ -170,8 +170,8 @@ app.get('/movies',function(req,res){
             Movie.aggregate([
                 {$lookup: { 
                     from: "reviews",
-                    localField:"Title",
-                    foreignField:"MovieTitle",
+                    localField:"_id",
+                    foreignField:"MovieId",
                     as: "movieReviews"
                     }
                 }
@@ -366,7 +366,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
                     if(user){
                         console.log(User.username)
                         var newReview=Review({
-                            MovieTitle:movie.Title,
+                            MovieId:movie._id,
                             ReviewerName:user.username,
                             MovieComments:req.body.comments,
                             Rating:req.body.rating
