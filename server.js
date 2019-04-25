@@ -309,7 +309,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers','*')
     if(req.body.id&& req.body.comments && req.body.rating){
-        Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
+        Movie.findOne({_id:req.body.id},req.body.movie,function(err,movie){
             
             var user= jwt.verify(req.headers.authorization.split(' ')[1],authJwtController.secret);
             
@@ -318,7 +318,7 @@ app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
                     if(user){
                         console.log(User.username)
                         var newReview=Review({
-                            MovieTitle:req.body.title,
+                            MovieTitle:movie.Title,
                             ReviewerName:user.username,
                             MovieComments:req.body.comments,
                             Rating:req.body.rating
