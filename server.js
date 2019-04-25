@@ -114,6 +114,8 @@ app.post('/signin',function(req,res){
 });
 
 app.all('/signin',function(req,res){
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers','*')
     res.json({success: false,msg: 'Invalid method'});
 })
 
