@@ -135,12 +135,12 @@ app.get('/movies',function(req,res){
     if(req.query.reviews==true){
             if(req.query.id){
                 Movie.aggregate([
-                    { $match: {
-                        _id: req.query.id
-                    }
-                    },
+                    
                     { 
                         $addFields: { "id1": { "$toString": "$_id" } }
+                    },
+                    { 
+                        $match: {_id: req.query.id}
                     },
                     {$lookup: { 
                         from: "reviews",
@@ -173,9 +173,9 @@ app.get('/movies',function(req,res){
         }else{
             Movie.aggregate([
                 
-                    { 
-                        $addFields: { "_id": { "$toString": "$_id" } }
-                    },
+                { 
+                    $addFields: { "_id": { "$toString": "$_id" } }
+                },
                 {
                 $lookup: { 
                     from: "reviews",
@@ -211,8 +211,8 @@ app.get('/movies',function(req,res){
         
     }else{
     
-        if(req.query.title){
-            Movie.find({Title:req.query.title},function(err,movies){
+        if(req.query.id){
+            Movie.find({Title:req.query.id},function(err,movies){
                 if (err) throw err;
                 
                 sendMovies(movies)
