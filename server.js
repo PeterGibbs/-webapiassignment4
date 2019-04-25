@@ -138,13 +138,13 @@ app.get('/movies',function(req,res){
                     { $match: {
                         _id: req.query.id
                     }
-                },
+                    },
                     { 
-                        $addFields: { "_id": { "$toString": "$_id" } }
+                        $addFields: { "id1": { "$toString": "$_id" } }
                     },
                     {$lookup: { 
                         from: "reviews",
-                        localField:"_id",
+                        localField:"id1",
                         foreignField:"MovieId",
                         as: "movieReviews"
                         }
