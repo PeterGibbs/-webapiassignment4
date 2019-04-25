@@ -144,7 +144,7 @@ app.get('/movies',function(req,res){
                     },
                     {$lookup: { 
                         from: "reviews",
-                        localField:"id1",
+                        localField:req.query.id,
                         foreignField:"MovieId",
                         as: "movieReviews"
                         }
