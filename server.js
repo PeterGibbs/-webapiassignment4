@@ -136,8 +136,12 @@ app.get('/movies',function(req,res){
             if(req.query.id){
                 Movie.aggregate([
                     { $match: {
-                        Title: req.query.id
-                    }},
+                        _id: req.query.id
+                    }
+                },
+                    { 
+                        $addFields: { "_id": { "$toString": "$_id" } }
+                    },
                     {$lookup: { 
                         from: "reviews",
                         localField:"_id",
@@ -168,13 +172,19 @@ app.get('/movies',function(req,res){
                 )
         }else{
             Movie.aggregate([
-                {$lookup: { 
+                
+                    { 
+                        $addFields: { "_id": { "$toString": "$_id" } }
+                    },
+                {
+                $lookup: { 
                     from: "reviews",
                     localField:"_id",
                     foreignField:"MovieId",
                     as: "movieReviews"
                     }
                 }
+                
             ], function(err,movies){
                 if (err) throw err;
                 for(var i=0; i<movies.length; ++i){
