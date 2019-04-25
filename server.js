@@ -133,7 +133,8 @@ app.get('/movies',function(req,res){
     }
     res=res.status(200)
     if(req.query.reviews==true){
-        Movie.aggregate([
+            if(req.query.title){
+                Movie.aggregate([
                     { $match: {
                         Title: req.query.title
                     }},
@@ -145,15 +146,30 @@ app.get('/movies',function(req,res){
                         }
                     }
                 ], function(err,movies){
+                    if (err) throw err;
+                    sendMovies(movies)
+
+                }
+
+                )
+        }else{
+            Movie.aggregate([
+                {$lookup: { 
+                    from: "reviews",
+                    localField:"Title",
+                    foreignField:"MovieTitle",
+                    as: "movieReviews"
+                    }
+                }
+            ], function(err,movies){
                 if (err) throw err;
-                
-
-
                 sendMovies(movies)
 
             }
 
-         )
+            )
+        }
+        
     }else{
     
         if(req.query.title){
