@@ -57,7 +57,7 @@ app.post('/signup',function(req,res){
                 const hash_secret=process.env.HASH_SECRET;
                 var newUser=User({
                         username: req.body.username,
-                        password: crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex'),
+                        password: crypto.createHmac('sha256', hash_secret).update(req.body.password,"utf8").digest('hex'),
                         name: req.body.name
                     });
                     newUser.save(function(err){
@@ -98,7 +98,7 @@ app.post('/signin',function(req,res){
     res.setHeader('Access-Control-Allow-Headers','*')
     console.log(req.body);
     const hash_secret=process.env.HASH_SECRET;
-    var pwd=crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
+    var pwd=crypto.createHmac('sha256', hash_secret).update(req.body.password,"utf8").digest('hex')
     User.findOne({username:req.body.username,password:pwd},function(err,user){
         if(err) throw err;
         if(!user){
