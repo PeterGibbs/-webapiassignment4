@@ -130,10 +130,10 @@ app.get('/movies',function(req,res){
         }
     }
     res=res.status(200)
-    if(req.body.reviews=="true"){
+    if(req.query.reviews=="true"){
         Movie.aggregate([
                     { $match: {
-                        Title: req.body.title
+                        Title: req.query.title
                     }},
                     {$lookup: { 
                         from: "reviews",
@@ -152,8 +152,8 @@ app.get('/movies',function(req,res){
          )
     }else{
     
-        if(req.body.title){
-            Movie.find({Title:req.body.title},function(err,movies){
+        if(req.query.title){
+            Movie.find({Title:req.query.title},function(err,movies){
                 if (err) throw err;
                 
                 sendMovies(movies)
@@ -306,7 +306,7 @@ app.get("/reviews",function(req,res){
 app.route("/reviews").post(authJwtController.isAuthenticated,function(req,res){
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers','*')
-    if(req.body.title&& req.body.comments && req.body.rating){
+    if(req.body.id&& req.body.comments && req.body.rating){
         Movie.findOne({Title:req.body.title},req.body.movie,function(err,movie){
             
             var user= jwt.verify(req.headers.authorization.split(' ')[1],authJwtController.secret);
