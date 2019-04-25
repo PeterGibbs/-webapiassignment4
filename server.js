@@ -161,7 +161,7 @@ app.get('/movies',function(req,res){
                             movies[i].ImageUrl="https://cdn0.iconfinder.com/data/icons/technology-business-and-people/1000/file_light-15-512.png"
                         }
                     }
-                    sendMovies(movies)
+                    sendMovies(movies[0])
 
                 }
 
