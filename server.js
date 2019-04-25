@@ -212,7 +212,7 @@ app.get('/movies',function(req,res){
     }else{
     
         if(req.query.id){
-            Movie.find({Title:req.query.id},function(err,movies){
+            Movie.find({_id:req.query.id},function(err,movies){
                 if (err) throw err;
                 
                 sendMovies(movies)
