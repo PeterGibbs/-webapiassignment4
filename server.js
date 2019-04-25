@@ -56,8 +56,9 @@ app.post('/signup',function(req,res){
                 console.log("adding")
                 const hash_secret=process.env.HASH_SECRET;
                 var newUser=User({
-                    username: req.body.username,
-                        password: crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex')
+                        username: req.body.username,
+                        password: crypto.createHmac('sha256', hash_secret).update(req.body.password).digest('hex'),
+                        name=req.body.name
                     });
                     newUser.save(function(err){
                         if(err) throw err;
