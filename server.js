@@ -140,7 +140,7 @@ app.get('/movies',function(req,res){
                         $addFields: { "id1": { "$toString": "$_id" } }
                     },
                     { 
-                        $match: {_id: req.query.id}
+                        $match: {id1: req.query.id}
                     },
                     {$lookup: { 
                         from: "reviews",
