@@ -133,10 +133,10 @@ app.get('/movies',function(req,res){
     }
     res=res.status(200)
     if(req.query.reviews==true){
-            if(req.query.title){
+            if(req.query.id){
                 Movie.aggregate([
                     { $match: {
-                        Title: req.query.id
+                        _id: req.query.id
                     }},
                     {$lookup: { 
                         from: "reviews",
