@@ -147,6 +147,8 @@ app.get('/movies',function(req,res){
                 ], function(err,movies){
                 if (err) throw err;
                 
+
+
                 sendMovies(movies)
 
             }
