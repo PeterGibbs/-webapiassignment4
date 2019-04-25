@@ -157,6 +157,9 @@ app.get('/movies',function(req,res){
                         }else{
                             movies[i].AvgRating=0
                         }
+                        if(!movies[i].ImageUrl){
+                            movies[i].ImageUrl="http://tccl.libnet.info/images/events/tccl/Movie_night.jpg"
+                        }
                     }
                     sendMovies(movies)
 
@@ -183,6 +186,10 @@ app.get('/movies',function(req,res){
                         movies[i].AvgRating=runingTotal/movies.length
                     }else{
                         movies[i].AvgRating=0
+                    }
+
+                    if(!movies[i].ImageUrl){
+                        movies[i].ImageUrl="http://tccl.libnet.info/images/events/tccl/Movie_night.jpg"
                     }
                 }
                 sendMovies(movies)
