@@ -8,6 +8,7 @@ var movieSchema=new Schema({
     Title:{type:String, required: true,unique:true},
     Year:{type: Number, required: true},
     Genre:{type:String,required: true},
+    ImageUrl:{type:String},
     Actors:[actorSchema]
 
 })
