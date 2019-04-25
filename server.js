@@ -123,8 +123,7 @@ app.get('/movies',function(req,res){
     function sendMovies(movies){
         if(movies){
             let responseData={
-                success: true,
-                movies: movies
+                movies
             }
             res.json(responseData);
         }
