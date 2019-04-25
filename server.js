@@ -36,7 +36,7 @@ app.post('/signup',function(req,res){
     res.setHeader('Access-Control-Allow-Headers','*')
     res=res.status(200)
     
-    console.log(req.body);
+    
     let alreadyExists=false;
     if(req.body.username&& req.body.password){
         
