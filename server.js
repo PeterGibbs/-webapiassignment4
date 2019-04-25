@@ -154,6 +154,8 @@ app.get('/movies',function(req,res){
                                 runingTotal+=movies[i].movieReviews[j].Rating
                             }
                             movies[i].AvgRating=runingTotal/movies.length
+                        }else{
+                            movies[i].AvgRating=0
                         }
                     }
                     sendMovies(movies)
@@ -179,6 +181,8 @@ app.get('/movies',function(req,res){
                             runingTotal+=movies[i].movieReviews[j].Rating
                         }
                         movies[i].AvgRating=runingTotal/movies.length
+                    }else{
+                        movies[i].AvgRating=0
                     }
                 }
                 sendMovies(movies)
