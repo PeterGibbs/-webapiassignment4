@@ -136,7 +136,7 @@ app.get('/movies',function(req,res){
             if(req.query.title){
                 Movie.aggregate([
                     { $match: {
-                        Title: req.query.title
+                        _id: req.query.title
                     }},
                     {$lookup: { 
                         from: "reviews",
