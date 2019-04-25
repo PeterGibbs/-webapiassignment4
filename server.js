@@ -239,7 +239,8 @@ app.route('/movies').post(authJwtController.isAuthenticated,function(req,res){
                     Title:req.body.title,
                     Year:req.body.year,
                     Genre:req.body.genre,
-                    Actors:req.body.actors
+                    Actors:req.body.actors,
+                    ImageUrl:req.body.imageUrl
                 });
             
                 newMovie.save(function(err){
