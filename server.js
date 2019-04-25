@@ -153,7 +153,7 @@ app.get('/movies',function(req,res){
                             for(var j=0; j<movies[i].movieReviews.length; ++j){
                                 runningTotal+=movies[i].movieReviews[j].Rating
                             }
-                            movies[i].AvgRating=runningTotal/movieReviews.length
+                            movies[i].AvgRating=runningTotal/movies[i].movieReviews.length
                         }else{
                             movies[i].AvgRating=0
                         }
@@ -183,7 +183,7 @@ app.get('/movies',function(req,res){
                         for(var j=0; j<movies[i].movieReviews.length; ++j){
                             runningTotal+=movies[i].movieReviews[j].Rating
                         }
-                        movies[i].AvgRating=runningTotal/movieReviews.length
+                        movies[i].AvgRating=runningTotal/movies[i].movieReviews.length
                     }else{
                         movies[i].AvgRating=0
                     }
