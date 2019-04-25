@@ -125,7 +125,7 @@ app.get('/movies',function(req,res){
             let responseData={
                 movies
             }
-            res.json(responseData);
+            res.json(movies);
         }
     }
     res=res.status(200)
